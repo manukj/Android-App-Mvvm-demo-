@@ -1,11 +1,14 @@
-package com.example.database;
+package com.example.database.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import org.w3c.dom.Node;
+
+import com.example.database.Model.Note;
+import com.example.database.Model.NoteDatabase;
+import com.example.database.Model.NotesDAO;
 
 import java.util.List;
 
@@ -18,8 +21,8 @@ public class NoteRepository {
     private LiveData<List<Note>> allNotes;
 
     public NoteRepository(Application application) {
-        NoteDatabse databse = NoteDatabse.getInstance(application);
-        notesDAO = databse.notesDAO();
+        NoteDatabase databse = NoteDatabase.getInstance(application);
+        notesDAO = databse.noteDao();
         allNotes = notesDAO.getAllNotes();
     }
 

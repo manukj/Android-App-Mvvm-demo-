@@ -1,10 +1,13 @@
-package com.example.database;
+package com.example.database.ViewModel;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.example.database.Model.Note;
+import com.example.database.ViewModel.NoteRepository;
 
 import java.util.List;
 

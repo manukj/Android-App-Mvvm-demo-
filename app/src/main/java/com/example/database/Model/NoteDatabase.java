@@ -1,4 +1,4 @@
-package com.example.database;
+package com.example.database.Model;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -13,23 +13,25 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
  * Created by Manu K J on 9/11/19.
  */
 @Database(entities = {Note.class}, version = 1)
-public abstract class NoteDatabse extends RoomDatabase {
-    private static NoteDatabse instance;
+public abstract class NoteDatabase extends RoomDatabase {
+
+
+    private static NoteDatabase instance;
     private static RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            new PopulateDatabase(instance);
+            new PopulateDatabase(instance).execute();
         }
     };
 
     //singleton class
-    public static synchronized NoteDatabse getInstance(Context context) {
+    public static synchronized NoteDatabase getInstance(Context context) {
 
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                    NoteDatabse.class
-                    , "note databse")
+                    NoteDatabase.class,
+                    "notedatabse")
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallback)
                     .build();
@@ -37,14 +39,14 @@ public abstract class NoteDatabse extends RoomDatabase {
         return instance;
     }
 
-    public abstract NotesDAO notesDAO();
+    public abstract NotesDAO noteDao();
 
     private static class PopulateDatabase extends AsyncTask<Void, Void, Void> {
 
         private NotesDAO notesDAO;
 
-        private PopulateDatabase(NoteDatabse noteDatabse) {
-            notesDAO = noteDatabse.notesDAO();
+        private PopulateDatabase(NoteDatabase nd) {
+            notesDAO = nd.noteDao();
         }
 
         @Override
